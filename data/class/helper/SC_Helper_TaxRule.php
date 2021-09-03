@@ -100,7 +100,7 @@ class SC_Helper_TaxRule
      * @param int $tax_adjust 調整額
      * @return double 税金額
      */
-    public static function calcTax($price, $tax, $calc_rule, $tax_adjust = 0)
+    public static function calcTax ($price, $tax, $calc_rule, $tax_adjust = 0)
     {
         $real_tax = $tax / 100;
         $ret = (int)$price * $real_tax;
@@ -113,7 +113,7 @@ class SC_Helper_TaxRule
      * 現在有効な税率設定情報を返す
      *
      * @param int $product_id 商品ID
-     * @param int $product_class_id 商品規格ID(商品規格ごとの税率設定は廃止のため常に0)
+     * @param int $product_class_id 商品規格ID
      * @param int $pref_id 都道府県ID
      * @param int $country_id 国ID
      * @param int $option_product_tax_rule 商品別税率を有効にする場合 1, 無効の場合 0
@@ -246,7 +246,7 @@ class SC_Helper_TaxRule
             // 課税規則は基本設定のものを使用
             $calc_rule = $arrRet['calc_rule'];
             // 日付は登録時点を設定
-            $apply_date = 'CURRENT_TIMESTAMP';
+            $apply_date = date('Y/m/d H:i:s');
             // 税情報を設定
             SC_Helper_TaxRule_Ex::setTaxRule($calc_rule, $tax_rate, $apply_date, NULL, $tax_adjust, $product_id, $product_class_id, $pref_id, $country_id);
         } else {
@@ -258,8 +258,8 @@ class SC_Helper_TaxRule
             $tax_rule_id = $arrCheck['tax_rule_id'];
             if ($tax_rule_id) {
                 SC_Helper_TaxRule_Ex::deleteTaxRuleData($tax_rule_id);
-            }
         }
+    }
     }
 
     /**
