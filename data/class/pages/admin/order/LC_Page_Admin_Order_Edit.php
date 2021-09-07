@@ -1100,7 +1100,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $this->changeShipmentProducts($arrShipmentProducts, $arrAddProductInfo, $select_shipping_id, $change_no);
 
             //受注商品情報も上書き
-            $arrTax = SC_Helper_TaxRule_Ex::getTaxRule($arrAddProductInfo['product_id']);
+            $arrTax = SC_Helper_TaxRule_Ex::getTaxRule(0, $edit_product_class_id);
 
             // 実際はedit
             $arrAddProductInfo['product_name'] = ($arrAddProductInfo['product_name'])
@@ -1278,7 +1278,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
     {
         if (!$arrProductClassIds || !in_array($insert_product_class_id, $arrProductClassIds)) {
             $arrAddProducts = array();
-            $arrTax = SC_Helper_TaxRule_Ex::getTaxRule($arrAddProductInfo['product_id']);
+            $arrTax = SC_Helper_TaxRule_Ex::getTaxRule(0, $insert_product_class_id);
 
             $arrAddProductInfo['product_name'] = ($arrAddProductInfo['product_name'])
                 ? $arrAddProductInfo['product_name']
