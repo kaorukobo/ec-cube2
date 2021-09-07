@@ -269,9 +269,10 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
             if (!SC_Utils_Ex::isBlank($arrExists[$arrList['classcategory_id1'][$i]][$arrList['classcategory_id2'][$i]])) {
                 $product_class_id = $arrExists[$arrList['classcategory_id1'][$i]][$arrList['classcategory_id2'][$i]];
                 if ($del_flg == 0 || in_array($product_class_id, $arrOrderExists) == true) {
+                    $arrPC['product_class_id'] = $product_class_id;
                     $objQuery->update('dtb_products_class', $arrPC, 'product_class_id = ?',
                                       array($product_class_id));
-            } else {
+                } else {
                     $objQuery->delete('dtb_products_class', 'product_class_id = ?',
                                       array($product_class_id));
                 }
