@@ -478,6 +478,8 @@ define('USE_NORMALIZE_HOSTNAME', true);
 define('FORM_COUNTRY_ENABLE', false);
 /** 商品ごとの税率設定(軽減税率対応 有効:1 無効:0) */
 define('OPTION_PRODUCT_TAX_RULE', 0);
+/** 商品規格ごとの税率設定。 PR#301 の通り本家では廃止されているので自己責任で有効化。 (有効:1 無効:0) */
+define('OPTION_OBSOLETE_PER_PRODUCT_CLASS_TAX_RULE', 0);
 /** 複数箇所の税率設定時における優先度設定。カンマ区切りスペース不可で記述。後に書いてあるキーに一致するほど優先される。デフォルト：'product_id,product_class_id,pref_id,country_id'（国＞地域（県）＞規格単位＞商品単位） */
 define('TAX_RULE_PRIORITY', "product_id,product_class_id,pref_id,country_id");
 /** 決済処理中ステータスのロールバックを行う時間の設定(秒) */

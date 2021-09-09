@@ -197,7 +197,8 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
         $objFormParam->addParam('在庫数', 'stock_unlimited', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam(NORMAL_PRICE_TITLE, 'price01', PRICE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam(SALE_PRICE_TITLE, 'price02', PRICE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        if (OPTION_PRODUCT_TAX_RULE) {
+        // 商品規格ごとの税率設定は廃止
+        if (OPTION_OBSOLETE_PER_PRODUCT_CLASS_TAX_RULE) {
             $objFormParam->addParam('消費税率', 'tax_rate', PERCENTAGE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
         }
         $objFormParam->addParam('商品種別', 'product_type_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
@@ -269,6 +270,8 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
             if (!SC_Utils_Ex::isBlank($arrExists[$arrList['classcategory_id1'][$i]][$arrList['classcategory_id2'][$i]])) {
                 $product_class_id = $arrExists[$arrList['classcategory_id1'][$i]][$arrList['classcategory_id2'][$i]];
                 if ($del_flg == 0 || in_array($product_class_id, $arrOrderExists) == true) {
+                    // $arrPC['product_class_id'] が欠落すると、
+                    // OPTION_OBSOLETE_PER_PRODUCT_CLASS_TAX_RULE=1 の場合に規格別税率を取得しなくなる。
                     $arrPC['product_class_id'] = $product_class_id;
                     $objQuery->update('dtb_products_class', $arrPC, 'product_class_id = ?',
                                       array($product_class_id));
@@ -281,8 +284,8 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
                 $objQuery->insert('dtb_products_class', $arrPC);
             }
 
-            // 税情報登録/更新
-            if (OPTION_PRODUCT_TAX_RULE) {
+            // 商品規格ごとの税率設定は廃止
+            if (OPTION_OBSOLETE_PER_PRODUCT_CLASS_TAX_RULE) {
                 SC_Helper_TaxRule_Ex::setTaxRuleForProduct($arrList['tax_rate'][$i], $arrPC['product_id'], $arrPC['product_class_id']);
             }
         }
@@ -355,7 +358,8 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
                 /*
                  * 消費税率の必須チェック
                  */
-                if (OPTION_PRODUCT_TAX_RULE && SC_Utils_Ex::isBlank($arrValues['tax_rate'][$i])) {
+                // 商品規格ごとの税率設定は廃止
+                if (OPTION_OBSOLETE_PER_PRODUCT_CLASS_TAX_RULE && SC_Utils_Ex::isBlank($arrValues['tax_rate'][$i])) {
                     $arrErr['tax_rate'][$i] = '※ 消費税率が入力されていません。<br />';
                 }
                 /*
@@ -501,8 +505,8 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
                     $arrValues['del_flg'] = '0';
                 }
 
-                // 消費税率を設定
-                if (OPTION_PRODUCT_TAX_RULE) {
+                // 商品規格ごとの税率設定は廃止
+                if (OPTION_OBSOLETE_PER_PRODUCT_CLASS_TAX_RULE) {
                     $arrRet = SC_Helper_TaxRule_Ex::getTaxRule($arrValues['product_id'], $arrValues['product_class_id']);
                     $arrValues['tax_rate'] = $arrRet['tax_rate'];
                 }

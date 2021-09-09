@@ -305,15 +305,20 @@ __EOS__;
 
                 // 価格
                 // TODO: ここでprice01,price02を税込みにしてよいのか？ _inctax を付けるべき？要検証
-                $arrClassCats2['price01']
-                    = strlen($arrProductsClass['price01'])
-                    ? number_format(SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProductsClass['price01'], $productId, $arrProductsClass['product_class_id']))
-                    : '';
+                {
+                    $productClassIdForCalcIncTax = 
+                        OPTION_OBSOLETE_PER_PRODUCT_CLASS_TAX_RULE ? $arrProductsClass['product_class_id'] : 0;
+                    
+                    $arrClassCats2['price01']
+                        = strlen($arrProductsClass['price01'])
+                        ? number_format(SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProductsClass['price01'], $productId, $productClassIdForCalcIncTax))
+                        : '';
 
-                $arrClassCats2['price02']
-                    = strlen($arrProductsClass['price02'])
-                    ? number_format(SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProductsClass['price02'], $productId, $arrProductsClass['product_class_id']))
-                    : '';
+                    $arrClassCats2['price02']
+                        = strlen($arrProductsClass['price02'])
+                        ? number_format(SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProductsClass['price02'], $productId, $productClassIdForCalcIncTax))
+                        : '';
+                }
 
                 // ポイント
                 $arrClassCats2['point']
@@ -415,11 +420,14 @@ __EOS__;
         $arrProduct = (array) $arrRes[0];
 
         // 税込計算
+        $productClassIdForCalcIncTax = 
+            OPTION_OBSOLETE_PER_PRODUCT_CLASS_TAX_RULE ? $productClassId : 0;
+
         if (!SC_Utils_Ex::isBlank($arrProduct['price01'])) {
-            $arrProduct['price01_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price01'], $arrProduct['product_id'], $productClassId);
+            $arrProduct['price01_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price01'], $arrProduct['product_id'], $productClassIdForCalcIncTax);
         }
         if (!SC_Utils_Ex::isBlank($arrProduct['price02'])) {
-            $arrProduct['price02_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price02'], $arrProduct['product_id'], $productClassId);
+            $arrProduct['price02_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price02'], $arrProduct['product_id'], $productClassIdForCalcIncTax);
         }
 
         return $arrProduct;

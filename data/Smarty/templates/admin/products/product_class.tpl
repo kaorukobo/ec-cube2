@@ -203,7 +203,7 @@
                 <th>在庫数<span class="attention">*</span></th>
                 <th><!--{$smarty.const.NORMAL_PRICE_TITLE}-->(円)</th>
                 <th><!--{$smarty.const.SALE_PRICE_TITLE}-->(円)<span class="attention">*</span></th>
-                <!--{if $smarty.const.OPTION_PRODUCT_TAX_RULE}-->
+                <!--{if $smarty.const.OPTION_OBSOLETE_PER_PRODUCT_CLASS_TAX_RULE}-->
                 <th>消費税率(%)<span class="attention">*</span></th>
                 <!--{/if}-->
                 <th>商品種別<span class="attention">*</span></th>
@@ -276,7 +276,7 @@
                         <!--{/if}-->
                         <input type="text" name="<!--{$key}-->[<!--{$index}-->]" value="<!--{$arrForm[$key].value[$index]|h}-->" size="6" class="box6" maxlength="<!--{$arrForm[$key].length}-->" <!--{if $arrErr[$key][$index] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> id="<!--{$key}-->_<!--{$index}-->" />
                     </td>
-                    <!--{if $smarty.const.OPTION_PRODUCT_TAX_RULE}-->
+                    <!--{if $smarty.const.OPTION_OBSOLETE_PER_PRODUCT_CLASS_TAX_RULE}-->
                     <td class="center">
                         <!--{assign var=key value="tax_rate"}-->
                         <!--{if $arrErr[$key][$index]}-->
